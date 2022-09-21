@@ -26,8 +26,9 @@ body::before {
 }
 
 .getlocationbox {
-    padding: 10px;
-    border: 2px solid white;
+    padding: 15px;
+    box-shadow: 10px 10px;
+    border: 5px solid white;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -54,4 +55,11 @@ footer {
     bottom: 0;
     width: 100%;
     padding: 10px 0;
+    font-size: calc(1.3rem + .6vw);
+}
+
+@media (max-width:470px) {
+    footer {
+        font-size: 15px !important;
+    }
 }
