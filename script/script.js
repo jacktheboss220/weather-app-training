@@ -39,7 +39,7 @@ function response(res) {
         r.json().then(rr => {
             setTimeout(() => {
                 temp.innerHTML = rr.main.temp;
-                weType.innerHTML = rr.weather.description;
+                weType.innerHTML = rr.weather[0].description;
                 weLocation.innerHTML = rr.name;
                 feeltemp.innerHTML = rr.main.feels_like;
                 humidity.innerHTML = rr.main.humidity + "%";
@@ -58,10 +58,10 @@ city.addEventListener('keydown', res => {
         update.innerHTML = "Getting Location.....";
         const todayWeather = weatherUrl + `weather?q=${city.value}&units=metric` + apiKey;
         const forecastWeather = weatherUrl + `forecast/daily?q=${city.value}&cnt=7&units=metric` + apiKey;
-        fetch(todayWeather).then(r => {
-            r.json().then(rr => {
+        fetch(todayWeather).then(res => {
+            res.json().then(rr => {
                 setTimeout(() => {
-                    temp.innerHTML = rr.main.value;
+                    temp.innerHTML = rr.main.temp;
                     weType.innerHTML = rr.weather[0].description;
                     weLocation.innerHTML = rr.name;
                     feeltemp.innerHTML = rr.main.feels_like;
@@ -81,7 +81,9 @@ function error(err) {
 }
 document.querySelector('.temp').addEventListener('click', r => {
 
-    let cel = document.querySelector('.numb').innerHTML;
-    let deg = document.querySelector('.deg').innerHTML;
-
+    let mcel = document.getElementById('mainTemp');
+    let mdeg = document.getElementById('mainDeg');
+    let scel = document.getElementById('secTemp');
+    let sdeg = document.getElementById('secDeg');
+    console.log(mcel, mdeg, scel, sdeg);
 })
