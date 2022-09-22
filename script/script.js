@@ -38,11 +38,11 @@ function response(res) {
     fetch(todayWeather).then(r => {
         r.json().then(rr => {
             setTimeout(() => {
-                temp.innerHTML = rr.main.temp;
-                weType.innerHTML = rr.weather[0].description;
-                weLocation.innerHTML = rr.name;
-                feeltemp.innerHTML = rr.main.feels_like;
-                humidity.innerHTML = rr.main.humidity + "%";
+                temp.innerText = rr.main.temp;
+                weType.innerText = rr.weather[0].description;
+                weLocation.innerText = rr.name;
+                feeltemp.innerText = rr.main.feels_like;
+                humidity.innerText = rr.main.humidity + "%";
                 getlocation.style.display = "none";
                 weatherbox.style.display = "flex"
             }, 5000);
@@ -61,11 +61,11 @@ city.addEventListener('keydown', res => {
         fetch(todayWeather).then(res => {
             res.json().then(rr => {
                 setTimeout(() => {
-                    temp.innerHTML = rr.main.temp;
-                    weType.innerHTML = rr.weather[0].description;
-                    weLocation.innerHTML = rr.name;
-                    feeltemp.innerHTML = rr.main.feels_like;
-                    humidity.innerHTML = rr.main.humidity + "%";
+                    temp.innerText = rr.main.temp;
+                    weType.innerText = rr.weather[0].description;
+                    weLocation.innerText = rr.name;
+                    feeltemp.innerText = rr.main.feels_like;
+                    humidity.innerText = rr.main.humidity + "%";
                     getlocation.style.display = "none";
                     weatherbox.style.display = "flex"
                 }, 5000);
