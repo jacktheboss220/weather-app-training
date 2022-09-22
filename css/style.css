@@ -4,10 +4,12 @@
     box-sizing: border-box;
 }
 
+/* Body */
 body {
     font-family: 'Combo', cursive;
 }
 
+/* Body fixed */
 body::before {
     top: 0;
     left: 0;
@@ -19,10 +21,23 @@ body::before {
     background: linear-gradient(170deg, #3A4F41, #b9314f, #d5a18e, #dec3be, #e1dee3);
     filter: blur(5px);
 }
+.loading{
+    display: none;
+    justify-content: center;
+    margin-bottom: 2px;
+}
+.box {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    align-items: center;
+    justify-content: center;
+
+}
 
 .getlocation {
     display: flex;
-    height: 25rem;
+    width: 85%;
     align-items: center;
 }
 
@@ -36,6 +51,7 @@ body::before {
     width: 100%;
 }
 
+/* Lines */
 .lines {
     display: flex;
     justify-content: center;
@@ -49,6 +65,87 @@ body::before {
     height: 2px;
 }
 
+.weather {
+    width: 90%;
+    display: none;
+    margin-top: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weather-box {
+    padding: 6px;
+    background: white;
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 10px 10px;
+}
+
+.weather-box img {
+    max-width: 125px;
+}
+
+.weather-box .temp {
+    display: flex;
+    font-size: 50px;
+    font-weight: 600;
+}
+
+.weather-box .temp .numb {
+    font-weight: 700;
+}
+
+.weather-box .temp .deg {
+    font-size: 40px;
+    margin: 10px 5px 0 0;
+    display: block;
+}
+
+.weather-box .weLocation {
+    display: block;
+    align-content: center;
+    font-size: 25px;
+    margin-bottom: 30px;
+}
+
+.weLocation i {
+    font-size: 20px;
+}
+
+.bottom-details {
+    width: auto;
+}
+
+.weather-box .bottom-details {
+    border-top: 2px solid #bfbfbf;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.bottom-details .column {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.column i {
+    color: #40AFFc;
+    font-size: 40px;
+}
+
+.humidity {
+    border-left: 2px solid #bfbfbf;
+}
+
+/* Footer */
 footer {
     background: black;
     color: white;
@@ -62,5 +159,9 @@ footer {
 @media (max-width:470px) {
     footer {
         font-size: 15px !important;
+    }
+
+    .weather-box .bottom-details {
+        overflow: auto;
     }
 }
