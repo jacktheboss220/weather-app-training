@@ -45,7 +45,7 @@ function response(res) {
                 humidity.innerText = rr.main.humidity + "%";
                 getlocation.style.display = "none";
                 weatherbox.style.display = "flex"
-            }, 5000);
+            }, 3000);
         })
     })
 }
@@ -73,7 +73,7 @@ function getWeatherByName(name) {
                 humidity.innerText = rr.main.humidity + "%";
                 getlocation.style.display = "none";
                 weatherbox.style.display = "flex"
-            }, 5000);
+            }, 3000);
         })
     })
 }
@@ -84,7 +84,6 @@ function error(err) {
     getWeatherByName("delhi");
 }
 document.querySelector('.temp').addEventListener('click', r => {
-
     let mcel = document.getElementById('mainTemp');
     let mdeg = document.getElementById('mainDeg');
     let scel = document.getElementById('secTemp');

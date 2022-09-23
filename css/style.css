@@ -28,6 +28,8 @@ body::before {
     margin-bottom: 2px;
 }
 
+
+
 .box {
     display: flex;
     flex-direction: column;
@@ -36,7 +38,18 @@ body::before {
     justify-content: center;
 }
 
+.back {
+    padding: 2px;
+    color: black;
+    font-size: 20px;
+    font-weight: 500;
+    justify-content: start;
+}
 
+.box a {
+    text-decoration: none;
+    width: 100%;
+}
 
 .getlocation {
     display: flex;
@@ -167,7 +180,8 @@ footer {
     .weather-box .bottom-details {
         overflow: auto;
     }
-    .weather-box{
+
+    .weather-box {
         width: 80%;
     }
 }
