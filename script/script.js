@@ -59,6 +59,7 @@ city.addEventListener('keydown', res => {
 })
 
 function getWeatherByName(name) {
+    name = name.trim();
     update.style.display = "flex";
     update.innerHTML = "Getting Location.....";
     const todayWeather = weatherUrl + `weather?q=${name}&units=metric` + apiKey;
