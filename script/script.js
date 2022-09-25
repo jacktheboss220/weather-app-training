@@ -1,6 +1,7 @@
 //-------------------------------------------------------------------------------------------------------------//
-var getlocation = document.querySelector('.getlocationbox');
-var weatherbox = document.querySelector('.weather');
+var getlocation = document.querySelector('.getlocation');
+getlocation.style.display = "flex"
+var weather = document.querySelector('.weather');
 var loc = document.querySelector(".form-control");
 var city = document.querySelector("#city");
 var btn = document.querySelector(".fs-5.btn.btn-secondary");
@@ -14,10 +15,12 @@ const apiKey = "&appid=17b2aa06e2fc32be5d7db17960eb8f30";
 let temp = document.querySelector('.weather .numb');
 let weType = document.querySelector('.weType');
 let weLocation = document.querySelector('.weLocation span');
-let feeltemp = document.querySelector('.feels .temp .numb');
+let feeltemp = document.querySelector('.feels .temp1 .numb');
 let humidity = document.querySelector('.humidity .numb');
+let windSpeed = document.querySelector('.speed');
 //-------------------------------------------------------------------------------------------------------------//
 
+//-------------------------------------------------------------------------------------------------------------//
 btn.addEventListener('click', () => {
     update.style.display = "flex";
     update.innerHTML = "Getting Location.....";
@@ -43,8 +46,9 @@ function response(res) {
                 weLocation.innerText = rr.name;
                 feeltemp.innerText = rr.main.feels_like;
                 humidity.innerText = rr.main.humidity + "%";
+                windSpeed.innerText = rr.wind.speed;
                 getlocation.style.display = "none";
-                weatherbox.style.display = "flex"
+                weather.style.display = "flex"
             }, 3000);
         })
     })
@@ -72,8 +76,9 @@ function getWeatherByName(name) {
                 weLocation.innerText = rr.name;
                 feeltemp.innerText = rr.main.feels_like;
                 humidity.innerText = rr.main.humidity + "%";
+                windSpeed.innerText = rr.wind.speed;
                 getlocation.style.display = "none";
-                weatherbox.style.display = "flex"
+                weather.style.display = "flex"
             }, 3000);
         })
     })
