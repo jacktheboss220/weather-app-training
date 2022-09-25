@@ -32,18 +32,6 @@ btn.addEventListener('click', () => {
     }
 })
 //-------------------------------------------------------------------------------------------------------------//
-fetch("https://wallhaven.cc/search?q=weather&categories=110&purity=100&sorting=relevance&order=desc&page=3", {
-    method: "GET",
-    headers: {
-        'Access-Control-Allow-Origin': "https://jacktheboss220.github.io"
-    }
-}).then(res => {
-    console.log(res);
-    res.json().then(r => {
-        console.log(r);
-    })
-})
-//-------------------------------------------------------------------------------------------------------------//
 
 function response(res) {
     const { latitude, longitude } = res.coords;

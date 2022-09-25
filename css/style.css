@@ -19,6 +19,7 @@ body::before {
     height: 100vh;
     position: fixed;
     background: linear-gradient(170deg, #3A4F41, #b9314f, #d5a18e, #dec3be, #e1dee3);
+    /* background-image: url("https://w.wallhaven.cc/full/95/wallhaven-95l2od.jpg"); */
     filter: blur(5px);
 }
 
