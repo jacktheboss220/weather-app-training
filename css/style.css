@@ -33,10 +33,10 @@ body::before {
 .box {
     height: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: auto;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 .back {
@@ -152,6 +152,7 @@ body::before {
 
 .weather-box .bottom-details {
     border: 2px solid #bfbfbf;
+    border-radius: 10px;
     display: flex;
     align-content: center;
     justify-content: space-between;
@@ -189,6 +190,16 @@ body::before {
 
 .details {
     padding-left: 5px;
+}
+
+/* Forecast */
+
+.forecast-left {
+    border: 2px solid red;
+}
+
+.forecast-right {
+    border: 2px solid red;
 }
 
 /* Footer */
