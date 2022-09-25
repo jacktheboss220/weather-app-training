@@ -217,6 +217,7 @@ footer {
 
     .weather {
         height: 135vh;
+        justify-content: start;
     }
 
     .feels,
