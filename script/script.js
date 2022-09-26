@@ -7,6 +7,8 @@ var city = document.querySelector("#city");
 var btn = document.querySelector(".fs-5.btn.btn-secondary");
 var date = document.querySelector('#date');
 var update = document.querySelector('.loading');
+var box = document.querySelector('.box');
+var forecast = document.querySelectorAll('.forecast');
 //-------------------------------------------------------------------------------------------------------------//
 const weatherUrl = "https://api.openweathermap.org/data/2.5/";
 const apiKey = "&appid=17b2aa06e2fc32be5d7db17960eb8f30";
@@ -70,9 +72,16 @@ function newApi(city) {
                 feeltemp.innerText = res.days[0].feelslike;
                 humidity.innerText = res.days[0].humidity + "%";
                 windSpeed.innerText = res.days[0].windspeed;
+                for (let i = 1; i <= 6; i++) {
+                    document.getElementById("dateId" + i).innerText = res.days[i].datetime;
+                    document.getElementById("tempId" + i).innerText = res.days[i].temp + '°C';
+                };
                 getlocation.style.display = "none";
-                weather.style.display = "flex"
-            }, 3000)
+                weather.style.display = "flex";
+                forecast.forEach(ele => {
+                    ele.style.display = "flex"
+                })
+            }, 1000)
         })
     })
 }
