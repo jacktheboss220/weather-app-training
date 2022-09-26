@@ -31,7 +31,6 @@ body::before {
 }
 
 .box {
-    border: 2px solid red;
     margin: 10px;
     height: auto;
     display: flex;
