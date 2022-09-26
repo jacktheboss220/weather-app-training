@@ -31,17 +31,16 @@ body::before {
 }
 
 .box {
-    margin: 10px;
-    height: auto;
-    display: flex;
     flex-direction: row;
     justify-content: center;
+    height: auto;
+    display: flex;
+    margin: 10px;
     align-items: center;
 }
 
 .forecast-left,
 .forecast-right {
-    display: flex;
     box-shadow: 10px 10px;
     border-radius: 10px;
     padding: 5px;
@@ -91,7 +90,7 @@ body::before {
 }
 
 .getlocation {
-    display: none;
+    display: flex;
     width: 85%;
     align-items: center;
     height: calc(100vh - 11vh);

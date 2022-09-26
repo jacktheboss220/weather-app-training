@@ -79,7 +79,7 @@ function newApi(city) {
                 getlocation.style.display = "none";
                 weather.style.display = "flex";
                 forecast.forEach(ele => {
-                    ele.style.display = "flex"
+                    ele.style.display = "flex";
                 })
             }, 1000)
         })
