@@ -260,13 +260,15 @@ footer {
 
     .forecast-left {
         border-radius: 0;
+        width: 70%;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
         order: 3;
     }
-
+    
     .forecast-right {
         border-radius: 0;
+        width: 70%;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         order: 2;
