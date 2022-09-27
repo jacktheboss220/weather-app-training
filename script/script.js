@@ -1,19 +1,3 @@
-let headersList = {
-    "Accept": "*/*",
-    "User-Agent": "Thunder Client (https://www.thunderclient.com)"
-};
-
-(async () => {
-    let response = await fetch("https://wallhaven.cc/api/v1/search?q=pussy&categories=100&purity=110&sorting=random&order=desc&seed=ctBKvs&page=2", {
-        method: "GET",
-        headers: headersList
-    });
-    let data = await response.text();
-    console.log(data);
-})()
-
-
-
 //-------------------------------------------------------------------------------------------------------------//
 var getlocation = document.querySelector('.getlocation');
 getlocation.style.display = "flex"
