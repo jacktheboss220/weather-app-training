@@ -1,25 +1,24 @@
 //-------------------------------------------------------------------------------------------------------------//
-var getlocation = document.querySelector('.getlocation');
+const getlocation = document.querySelector('.getlocation');
 getlocation.style.display = "flex"
-var weather = document.querySelector('.weather');
-var loc = document.querySelector(".form-control");
-var city = document.querySelector("#city");
-var btn = document.querySelector(".fs-5.btn.btn-secondary");
-var date = document.querySelector('#date');
-var update = document.querySelector('.loading');
-var box = document.querySelector('.box');
-var forecast = document.querySelectorAll('.forecast');
+const weather = document.querySelector('.weather');
+const loc = document.querySelector(".form-control");
+const city = document.querySelector("#city");
+const btn = document.querySelector(".fs-5.btn.btn-secondary");
+const date = document.querySelector('#date');
+const update = document.querySelector('.loading');
+const box = document.querySelector('.box');
+const forecast = document.querySelectorAll('.forecast');
+const image = document.getElementById('weImage');
 //-------------------------------------------------------------------------------------------------------------//
-const weatherUrl = "https://api.openweathermap.org/data/2.5/";
-const apiKey = "&appid=17b2aa06e2fc32be5d7db17960eb8f30";
-
+const weatherBit = "https://api.weatherbit.io/v2.0/forecast/daily?days=7&key=257d1d4650dc4ddb891505e70c2c6c8d";
 //-------------------------------------------------------------------------------------------------------------//
-let temp = document.querySelector('.weather .numb');
-let weType = document.querySelector('.weType');
-let weLocation = document.querySelector('.weLocation span');
-let feeltemp = document.querySelector('.feels .temp1 .numb');
-let humidity = document.querySelector('.humidity .numb');
-let windSpeed = document.querySelector('.speed');
+const temp = document.querySelector('.weather .numb');
+const weType = document.querySelector('.weType');
+const weLocation = document.querySelector('.weLocation span');
+const feeltemp = document.querySelector('.feels .temp1 .numb');
+const humidity = document.querySelector('.humidity .numb');
+const windSpeed = document.querySelector('.speed');
 //-------------------------------------------------------------------------------------------------------------//
 
 //-------------------------------------------------------------------------------------------------------------//
@@ -37,11 +36,14 @@ btn.addEventListener('click', () => {
 
 function response(res) {
     const { latitude, longitude } = res.coords;
-    const todayWeather = weatherUrl + `weather?lat=${latitude}&lon=${longitude}&units=metric` + apiKey;
+    const todayWeather = weatherBit + `&lat=${latitude}&lon=${longitude}`;
     fetch(todayWeather).then(r => {
         r.json().then(rr => {
-            newApi(rr.name);
+            newApi(rr.city_name, res.coords);
         })
+    }).catch(err => {
+        update.innerHTML = "Failed to get location....setting delhi as default location..";
+        getWeatherByName("Delhi");
     })
 }
 
@@ -52,7 +54,7 @@ city.addEventListener('keydown', res => {
         getWeatherByName(city.value);
     }
 })
-
+//-------------------------------------------------------------------------------------------------------------//
 function getWeatherByName(name) {
     name = name.trim();
     update.style.display = "flex";
@@ -61,7 +63,7 @@ function getWeatherByName(name) {
 }
 //-------------------------------------------------------------------------------------------------------------//
 
-function newApi(city) {
+function newApi(city, loca) {
     fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/next7days?unitGroup=metric&include=days%2Ccurrent&key=HVBQXSJ9ZPRMSUZJXEHSXS2CP&contentType=json`).then(r => {
         r.json().then(res => {
             setTimeout(() => {
@@ -81,18 +83,67 @@ function newApi(city) {
                 forecast.forEach(ele => {
                     ele.style.display = "flex";
                 })
-            }, 1000)
+            })
+        }).catch(err => {
+            const { latitude, longitude } = loca;
+            const todayWeather = weatherBit + `&lat=${latitude}&lon=${longitude}`;
+            console.log(todayWeather);
+            fetch(todayWeather).then(r => {
+                r.json().then(res => {
+                    date.innerText = res.days[0].datetime;
+                    temp.innerText = res.days[0].temp;
+                    weType.innerText = res.weather.description;
+                    weLocation.innerText = res.city_name;
+                    feeltemp.innerText = res.days[0].app_max_temp;
+                    humidity.innerText = res.days[0].rh + "%";
+                    windSpeed.innerText = res.days[0].wind_spd;
+                    for (let i = 1; i <= 6; i++) {
+                        document.getElementById("dateId" + i).innerText = res.days[i].datetime;
+                        document.getElementById("tempId" + i).innerText = res.days[i].temp + '°C';
+                    };
+                    getlocation.style.display = "none";
+                    weather.style.display = "flex";
+                    forecast.forEach(ele => {
+                        ele.style.display = "flex";
+                    })
+                }).catch(err => {
+                    console.log("error inside catch");
+                })
+            })
+        }).catch(err => {
+            update.innerHTML = "Failed to get the weather update for the current location taking Delhi as default.."
+            getWeatherByName("delhi");
         })
     })
 }
+//-------------------------------------------------------------------------------------------------------------//
 function error(err) {
     loc.value = "Location Permission Denied, Taking Delhi as Default.";
     getWeatherByName("delhi");
 }
+//-------------------------------------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------------------------//
 document.querySelector('.temp').addEventListener('click', r => {
     let mcel = document.getElementById('mainTemp');
     let mdeg = document.getElementById('mainDeg');
+    if (mdeg.innerText.includes('C')) {
+        mcel.innerText = ((Number(mcel.innerText) * 9 / 5) + 32).toFixed(2);
+        mdeg.innerText = ` °F`
+    } else {
+        mcel.innerText = ((Number(mcel.innerText) - 32) * 5 / 9).toFixed(2);
+        mdeg.innerText = ` °C`
+    }
+})
+//-------------------------------------------------------------------------------------------------------------//
+document.querySelector('.temp1').addEventListener('click', r => {
     let scel = document.getElementById('secTemp');
     let sdeg = document.getElementById('secDeg');
-    console.log(mcel, mdeg, scel, sdeg);
+    if (sdeg.innerText.includes('C')) {
+        scel.innerText = ((Number(scel.innerText) * 9 / 5) + 32).toFixed(2);
+        sdeg.innerText = ` °F`
+    } else {
+        scel.innerText = ((Number(scel.innerText) - 32) * 5 / 9).toFixed(2);
+        sdeg.innerText = ` °C`
+    }
 })
+//-------------------------------------------------------------------------------------------------------------//

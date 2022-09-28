@@ -19,9 +19,15 @@ body::before {
     height: 100%;
     position: fixed;
     /* background: linear-gradient(170deg, #3A4F41, #b9314f, #d5a18e, #dec3be, #a4a0a7); */
-    background-image: url("https://w.wallhaven.cc/full/95/wallhaven-95l2od.jpg");
-    background-position: 50% 50%;
-    filter: blur(1px);
+    /* background-image: url("https://w.wallhaven.cc/full/95/wallhaven-95l2od.jpg"); */
+    /* background-image: url("https://w.wallhaven.cc/full/g7/wallhaven-g7qk3d.png"); */
+    /* background-image: url("https://w.wallhaven.cc/full/76/wallhaven-76v35o.jpg"); */
+    /* background-image: url("https://w.wallhaven.cc/full/ne/wallhaven-nem3qr.jpg"); */
+    /* background-image: url("https://w.wallhaven.cc/full/eo/wallhaven-eo89do.jpg"); */
+    /* background-image: url("https://w.wallhaven.cc/full/4d/wallhaven-4de63g.jpg"); */
+    background-position: center center;
+    background: rgb(98, 98, 186);
+    /* filter: blur(2px); */
 }
 
 .loading {
@@ -33,10 +39,20 @@ body::before {
 .box {
     flex-direction: row;
     justify-content: center;
-    height: auto;
+    height: calc(100vh - 11vh);
     display: flex;
     margin: 10px;
     align-items: center;
+}
+
+.box::before {
+    top: 0;
+    bottom: 0;
+    contain: "";
+    height: 100%;
+    width: 100%;
+    background: #40AFFc;
+    z-index: 1;
 }
 
 .forecast-left,
@@ -230,13 +246,16 @@ body::before {
 
 /* Footer */
 footer {
+
     font-size: calc(1.3rem + .6vw);
     position: absolute;
     padding: 10px 0;
-    background: black;
+    /* background: black; */
     color: white;
     width: 100%;
 }
+
+/* Media */
 
 @media (max-width:1000px) {
     footer {
@@ -255,6 +274,7 @@ footer {
     }
 
     .box {
+        height: auto;
         flex-direction: column;
     }
 
@@ -265,7 +285,7 @@ footer {
         border-bottom-right-radius: 5px;
         order: 3;
     }
-    
+
     .forecast-right {
         border-radius: 0;
         width: 70%;
