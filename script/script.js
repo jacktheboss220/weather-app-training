@@ -29,7 +29,9 @@ btn.addEventListener('click', () => {
         navigator.geolocation.getCurrentPosition(response, error);
     }
     else {
-        getWeatherByName("Delhi");
+        setTimeout(() => {
+            getWeatherByName("Delhi");
+        }, 5000);
     }
 })
 //-------------------------------------------------------------------------------------------------------------//
@@ -43,7 +45,9 @@ function response(res) {
         })
     }).catch(err => {
         update.innerHTML = "Failed to get location....setting delhi as default location..";
-        getWeatherByName("Delhi");
+        setTimeout(() => {
+            getWeatherByName("Delhi");
+        }, 5000);
     })
 }
 
@@ -62,41 +66,24 @@ function getWeatherByName(name) {
     newApi(name);
 }
 //-------------------------------------------------------------------------------------------------------------//
-
+weatherType = ["clear", "cloud", "haze", "rain", "snow", "storm"];
 function newApi(city, loca) {
     fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/next7days?unitGroup=metric&include=days%2Ccurrent&key=HVBQXSJ9ZPRMSUZJXEHSXS2CP&contentType=json`).then(r => {
-        r.json().then(res => {
-            setTimeout(() => {
-                date.innerText = res.days[0].datetime;
-                temp.innerText = res.days[0].temp;
-                weType.innerText = res.days[0].conditions;
-                weLocation.innerText = res.resolvedAddress;
-                feeltemp.innerText = res.days[0].feelslike;
-                humidity.innerText = res.days[0].humidity + "%";
-                windSpeed.innerText = res.days[0].windspeed;
-                for (let i = 1; i <= 6; i++) {
-                    document.getElementById("dateId" + i).innerText = res.days[i].datetime;
-                    document.getElementById("tempId" + i).innerText = res.days[i].temp + '°C';
-                };
-                getlocation.style.display = "none";
-                weather.style.display = "flex";
-                forecast.forEach(ele => {
-                    ele.style.display = "flex";
-                })
-            })
-        }).catch(err => {
-            const { latitude, longitude } = loca;
-            const todayWeather = weatherBit + `&lat=${latitude}&lon=${longitude}`;
-            console.log(todayWeather);
-            fetch(todayWeather).then(r => {
-                r.json().then(res => {
+        if (r.status != 400) {
+            r.json().then(res => {
+                setTimeout(() => {
                     date.innerText = res.days[0].datetime;
                     temp.innerText = res.days[0].temp;
-                    weType.innerText = res.weather.description;
-                    weLocation.innerText = res.city_name;
-                    feeltemp.innerText = res.days[0].app_max_temp;
-                    humidity.innerText = res.days[0].rh + "%";
-                    windSpeed.innerText = res.days[0].wind_spd;
+                    weType.innerText = res.days[0].conditions;
+                    weatherType.forEach(ele => {
+                        if (res.days[0].conditions.toLowerCase().includes(ele)) {
+                            image.src = `./Weather Icons/${ele}.svg`
+                        }
+                    })
+                    weLocation.innerText = res.resolvedAddress;
+                    feeltemp.innerText = res.days[0].feelslike;
+                    humidity.innerText = res.days[0].humidity + "%";
+                    windSpeed.innerText = res.days[0].windspeed;
                     for (let i = 1; i <= 6; i++) {
                         document.getElementById("dateId" + i).innerText = res.days[i].datetime;
                         document.getElementById("tempId" + i).innerText = res.days[i].temp + '°C';
@@ -105,21 +92,86 @@ function newApi(city, loca) {
                     weather.style.display = "flex";
                     forecast.forEach(ele => {
                         ele.style.display = "flex";
-                    })
-                }).catch(err => {
-                    console.log("error inside catch");
+                    }, 3000)
                 })
             })
-        }).catch(err => {
-            update.innerHTML = "Failed to get the weather update for the current location taking Delhi as default.."
-            getWeatherByName("delhi");
-        })
+        }
+        else {
+            const todayWeather = weatherBit + `&city=${city}`;
+            fetch(todayWeather).then(r => {
+                r.json().then(res => {
+                    setTimeout(() => {
+                        date.innerText = res.data[0].datetime;
+                        temp.innerText = res.data[0].temp;
+                        weType.innerText = res.data[0].weather.description;
+                        weatherType.forEach(ele => {
+                            if (res.data[0].weather.description.toLowerCase().includes(ele)) {
+                                image.src = `./Weather Icons/${ele}.svg`
+                            }
+                        })
+                        weLocation.innerText = res.city_name;
+                        feeltemp.innerText = res.data[0].app_max_temp;
+                        humidity.innerText = res.data[0].rh + "%";
+                        windSpeed.innerText = res.data[0].wind_spd;
+                        for (let i = 1; i <= 6; i++) {
+                            document.getElementById("dateId" + i).innerText = res.data[i].datetime;
+                            document.getElementById("tempId" + i).innerText = res.data[i].temp + '°C';
+                        };
+                        getlocation.style.display = "none";
+                        weather.style.display = "flex";
+                        forecast.forEach(ele => {
+                            ele.style.display = "flex";
+                        })
+                    }, 3000);
+                }).catch(err => {
+                    if (loca) {
+                        const { latitude, longitude } = loca;
+                        const todayWeather = weatherBit + `&lat=${latitude}&lon=${longitude}`;
+                        fetch(todayWeather).then(r => {
+                            r.json().then(res => {
+                                setTimeout(() => {
+                                    date.innerText = res.data[0].datetime;
+                                    temp.innerText = res.data[0].temp;
+                                    weType.innerText = res.data[0].weather.description;
+                                    weatherType.forEach(ele => {
+                                        if (res.data[0].weather.description.toLowerCase().includes(ele)) {
+                                            image.src = `./Weather Icons/${ele}.svg`
+                                        }
+                                    })
+                                    weLocation.innerText = res.city_name;
+                                    feeltemp.innerText = res.data[0].app_max_temp;
+                                    humidity.innerText = res.data[0].rh + "%";
+                                    windSpeed.innerText = res.data[0].wind_spd;
+                                    for (let i = 1; i <= 6; i++) {
+                                        document.getElementById("dateId" + i).innerText = res.data[i].datetime;
+                                        document.getElementById("tempId" + i).innerText = res.data[i].temp + '°C';
+                                    };
+                                    getlocation.style.display = "none";
+                                    weather.style.display = "flex";
+                                    forecast.forEach(ele => {
+                                        ele.style.display = "flex";
+                                    })
+                                }, 3000);
+                            })
+                        })
+                    }
+                })
+            })
+        }
+    }).catch(err => {
+        update.innerHTML = "Failed to get the weather update for the current location taking Delhi as default.."
+        setTimeout(() => {
+            getWeatherByName("Delhi");
+        }, 5000);
+
     })
 }
 //-------------------------------------------------------------------------------------------------------------//
 function error(err) {
-    loc.value = "Location Permission Denied, Taking Delhi as Default.";
-    getWeatherByName("delhi");
+    update.innerText = "Location Permission Denied, Taking Delhi as Default.";
+    setTimeout(() => {
+        getWeatherByName("Delhi");
+    }, 5000);
 }
 //-------------------------------------------------------------------------------------------------------------//
 //-------------------------------------------------------------------------------------------------------------//
