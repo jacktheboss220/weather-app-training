@@ -1,3 +1,9 @@
+/** 
+ * @author jacktheboss220 
+ * @description script file for weather webapp
+ * 
+*/
+
 //-------------------------------------------------------------------------------------------------------------//
 const getlocation = document.querySelector('.getlocation');
 getlocation.style.display = "flex"
@@ -31,7 +37,7 @@ btn.addEventListener('click', () => {
     else {
         setTimeout(() => {
             getWeatherByName("Delhi");
-        }, 5000);
+        }, 4000);
     }
 })
 //-------------------------------------------------------------------------------------------------------------//
@@ -47,7 +53,7 @@ function response(res) {
         update.innerHTML = "Failed to get location....setting delhi as default location..";
         setTimeout(() => {
             getWeatherByName("Delhi");
-        }, 5000);
+        }, 4000);
     })
 }
 
@@ -162,7 +168,7 @@ function newApi(city, loca) {
         update.innerHTML = "Failed to get the weather update for the current location taking Delhi as default.."
         setTimeout(() => {
             getWeatherByName("Delhi");
-        }, 5000);
+        }, 4000);
 
     })
 }
@@ -171,7 +177,7 @@ function error(err) {
     update.innerText = "Location Permission Denied, Taking Delhi as Default.";
     setTimeout(() => {
         getWeatherByName("Delhi");
-    }, 5000);
+    }, 4000);
 }
 //-------------------------------------------------------------------------------------------------------------//
 //-------------------------------------------------------------------------------------------------------------//
