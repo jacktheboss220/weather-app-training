@@ -55,7 +55,6 @@ body::before {
 .box {
     flex-direction: row;
     justify-content: center;
-    height: calc(100vh - 11vh);
     display: flex;
     margin: 10px;
     align-items: center;
@@ -496,7 +495,6 @@ footer {
     .humidity,
     .wind {
         border: none;
-        border-left: none;
     }
 
     .bottom-details .column {
