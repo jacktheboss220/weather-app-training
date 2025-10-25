@@ -25,9 +25,45 @@ const weLocation = document.querySelector('.weLocation span');
 const feeltemp = document.querySelector('.feels .temp1 .numb');
 const humidity = document.querySelector('.humidity .numb');
 const windSpeed = document.querySelector('.speed');
+// Additional weather elements
+const sunrise = document.getElementById('sunrise');
+const sunset = document.getElementById('sunset');
+const visibility = document.getElementById('visibility');
+const uvIndex = document.getElementById('uvIndex');
+const pressure = document.getElementById('pressure');
+const cloudCover = document.getElementById('cloudCover');
+const dewPoint = document.getElementById('dewPoint');
+const lastUpdated = document.getElementById('lastUpdated');
 //-------------------------------------------------------------------------------------------------------------//
 
 //-------------------------------------------------------------------------------------------------------------//
+// Helper function to format time
+function formatTime(timestamp) {
+    if (!timestamp) return '--:--';
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+}
+
+// Helper function to get UV Index class
+function getUVClass(uv) {
+    if (uv < 3) return 'uv-low';
+    if (uv < 6) return 'uv-moderate';
+    if (uv < 8) return 'uv-high';
+    if (uv < 11) return 'uv-very-high';
+    return 'uv-extreme';
+}
+
+// Helper function to get weather emoji
+function getWeatherEmoji(condition) {
+    const lower = condition.toLowerCase();
+    if (lower.includes('clear') || lower.includes('sunny')) return '☀️';
+    if (lower.includes('cloud')) return '☁️';
+    if (lower.includes('rain')) return '🌧️';
+    if (lower.includes('snow')) return '❄️';
+    if (lower.includes('storm') || lower.includes('thunder')) return '⛈️';
+    if (lower.includes('haze') || lower.includes('fog')) return '🌫️';
+    return '🌤️';
+}
 btn.addEventListener('click', () => {
     update.style.display = "flex";
     update.innerHTML = "Getting Location.....";
@@ -90,9 +126,38 @@ function newApi(city, loca) {
                     feeltemp.innerText = res.days[0].feelslike;
                     humidity.innerText = res.days[0].humidity + "%";
                     windSpeed.innerText = res.days[0].windspeed;
+                    
+                    // Populate additional weather details
+                    sunrise.innerText = formatTime(res.days[0].sunriseEpoch);
+                    sunset.innerText = formatTime(res.days[0].sunsetEpoch);
+                    visibility.innerText = res.days[0].visibility ? res.days[0].visibility + ' km' : 'N/A';
+                    
+                    const uv = res.days[0].uvindex || 0;
+                    uvIndex.innerText = uv;
+                    uvIndex.className = 'detail-value ' + getUVClass(uv);
+                    
+                    pressure.innerText = res.days[0].pressure ? res.days[0].pressure + ' mb' : 'N/A';
+                    cloudCover.innerText = res.days[0].cloudcover ? res.days[0].cloudcover + '%' : 'N/A';
+                    dewPoint.innerText = res.days[0].dew ? res.days[0].dew + '°C' : 'N/A';
+                    
+                    // Update last updated time
+                    const now = new Date();
+                    lastUpdated.innerText = 'Last updated: ' + now.toLocaleTimeString('en-US', { 
+                        hour: '2-digit', 
+                        minute: '2-digit',
+                        hour12: true 
+                    });
+                    
+                    // Update forecast with weather icons
                     for (let i = 1; i <= 6; i++) {
+                        const emoji = getWeatherEmoji(res.days[i].conditions);
                         document.getElementById("dateId" + i).innerText = res.days[i].datetime;
-                        document.getElementById("tempId" + i).innerText = res.days[i].temp + '°C';
+                        document.getElementById("tempId" + i).innerHTML = 
+                            `<div class="weather-icon">${emoji}</div>` +
+                            `<div>${res.days[i].temp}°C</div>` +
+                            `<div class="temp-range" style="font-size: 12px; color: #999;">` +
+                            `<span>↓${res.days[i].tempmin}°</span> <span>↑${res.days[i].tempmax}°</span>` +
+                            `</div>`;
                     };
                     getlocation.style.display = "none";
                     weather.style.display = "flex";
@@ -119,9 +184,36 @@ function newApi(city, loca) {
                         feeltemp.innerText = res.data[0].app_max_temp;
                         humidity.innerText = res.data[0].rh + "%";
                         windSpeed.innerText = res.data[0].wind_spd;
+                        
+                        // Populate additional weather details from weatherBit
+                        sunrise.innerText = formatTime(res.data[0].sunrise_ts);
+                        sunset.innerText = formatTime(res.data[0].sunset_ts);
+                        visibility.innerText = res.data[0].vis ? res.data[0].vis + ' km' : 'N/A';
+                        
+                        const uv = res.data[0].uv || 0;
+                        uvIndex.innerText = uv.toFixed(1);
+                        uvIndex.className = 'detail-value ' + getUVClass(uv);
+                        
+                        pressure.innerText = res.data[0].pres ? res.data[0].pres + ' mb' : 'N/A';
+                        cloudCover.innerText = res.data[0].clouds ? res.data[0].clouds + '%' : 'N/A';
+                        dewPoint.innerText = res.data[0].dewpt ? res.data[0].dewpt + '°C' : 'N/A';
+                        
+                        const now = new Date();
+                        lastUpdated.innerText = 'Last updated: ' + now.toLocaleTimeString('en-US', { 
+                            hour: '2-digit', 
+                            minute: '2-digit',
+                            hour12: true 
+                        });
+                        
                         for (let i = 1; i <= 6; i++) {
+                            const emoji = getWeatherEmoji(res.data[i].weather.description);
                             document.getElementById("dateId" + i).innerText = res.data[i].datetime;
-                            document.getElementById("tempId" + i).innerText = res.data[i].temp + '°C';
+                            document.getElementById("tempId" + i).innerHTML = 
+                                `<div class="weather-icon">${emoji}</div>` +
+                                `<div>${res.data[i].temp}°C</div>` +
+                                `<div class="temp-range" style="font-size: 12px; color: #999;">` +
+                                `<span>↓${res.data[i].min_temp}°</span> <span>↑${res.data[i].max_temp}°</span>` +
+                                `</div>`;
                         };
                         getlocation.style.display = "none";
                         weather.style.display = "flex";
@@ -148,9 +240,36 @@ function newApi(city, loca) {
                                     feeltemp.innerText = res.data[0].app_max_temp;
                                     humidity.innerText = res.data[0].rh + "%";
                                     windSpeed.innerText = res.data[0].wind_spd;
+                                    
+                                    // Populate additional weather details
+                                    sunrise.innerText = formatTime(res.data[0].sunrise_ts);
+                                    sunset.innerText = formatTime(res.data[0].sunset_ts);
+                                    visibility.innerText = res.data[0].vis ? res.data[0].vis + ' km' : 'N/A';
+                                    
+                                    const uv = res.data[0].uv || 0;
+                                    uvIndex.innerText = uv.toFixed(1);
+                                    uvIndex.className = 'detail-value ' + getUVClass(uv);
+                                    
+                                    pressure.innerText = res.data[0].pres ? res.data[0].pres + ' mb' : 'N/A';
+                                    cloudCover.innerText = res.data[0].clouds ? res.data[0].clouds + '%' : 'N/A';
+                                    dewPoint.innerText = res.data[0].dewpt ? res.data[0].dewpt + '°C' : 'N/A';
+                                    
+                                    const now = new Date();
+                                    lastUpdated.innerText = 'Last updated: ' + now.toLocaleTimeString('en-US', { 
+                                        hour: '2-digit', 
+                                        minute: '2-digit',
+                                        hour12: true 
+                                    });
+                                    
                                     for (let i = 1; i <= 6; i++) {
+                                        const emoji = getWeatherEmoji(res.data[i].weather.description);
                                         document.getElementById("dateId" + i).innerText = res.data[i].datetime;
-                                        document.getElementById("tempId" + i).innerText = res.data[i].temp + '°C';
+                                        document.getElementById("tempId" + i).innerHTML = 
+                                            `<div class="weather-icon">${emoji}</div>` +
+                                            `<div>${res.data[i].temp}°C</div>` +
+                                            `<div class="temp-range" style="font-size: 12px; color: #999;">` +
+                                            `<span>↓${res.data[i].min_temp}°</span> <span>↑${res.data[i].max_temp}°</span>` +
+                                            `</div>`;
                                     };
                                     getlocation.style.display = "none";
                                     weather.style.display = "flex";
