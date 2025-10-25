@@ -114,6 +114,25 @@ body::before {
 .forecast-right .title {
     font-weight: 800;
     padding: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 20px;
+    position: relative;
+}
+
+.forecast-left .title::after,
+.forecast-right .title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
 }
 
 .forecast-left .day,
@@ -206,12 +225,23 @@ body::before {
     padding: 12px 15px;
     font-size: 16px;
     transition: all 0.3s ease;
+    background: white;
 }
 
 .getlocationbox .form-control:focus {
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     outline: none;
+    transform: translateY(-2px);
+}
+
+.getlocationbox .form-control::placeholder {
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.getlocationbox .form-control:focus::placeholder {
+    color: #667eea;
 }
 
 .getlocationbox .btn {
@@ -222,11 +252,36 @@ body::before {
     border: none;
     transition: all 0.3s ease;
     color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.getlocationbox .btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.getlocationbox .btn:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .getlocationbox .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+}
+
+.getlocationbox .btn:active {
+    transform: translateY(0);
+    box-shadow: 0 5px 10px rgba(102, 126, 234, 0.3);
 }
 
 .getlocation {
@@ -323,10 +378,21 @@ body::before {
     max-width: 150px;
     filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
     transition: transform 0.3s ease;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .weather-box img:hover {
     transform: scale(1.1) rotate(5deg);
+    animation-play-state: paused;
 }
 
 .weather-box .temp {
@@ -336,11 +402,29 @@ body::before {
     color: #333;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .weather-box .temp:hover {
     color: #667eea;
     transform: scale(1.05);
+}
+
+.weather-box .temp::after {
+    content: 'Click to convert';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+.weather-box .temp:hover::after {
+    opacity: 1;
 }
 
 .weather-box .temp .numb {
