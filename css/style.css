@@ -16,22 +16,37 @@ body::before {
     z-index: -1;
     height: 100%;
     position: fixed;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
     background-position: center center;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .loading {
     display: none;
     justify-content: center;
     margin-bottom: 20px;
-    color: #333;
-    font-weight: 600;
+    color: #667eea;
+    font-weight: 700;
     animation: pulse 1.5s ease-in-out infinite;
+    text-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0%, 100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.6;
+        transform: scale(1.05);
+    }
 }
 
 @keyframes fadeIn {
@@ -113,17 +128,53 @@ body::before {
     border-radius: 8px;
     margin: 5px 0;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.forecast-left .day::before,
+.forecast-right .day::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.15), transparent);
+    transition: width 0.3s ease;
+}
+
+.forecast-left .day:hover::before,
+.forecast-right .day:hover::before {
+    width: 100%;
 }
 
 .forecast-left .day:hover,
 .forecast-right .day:hover {
     background: rgba(102, 126, 234, 0.1);
     transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
 }
 
 .forecast-left .day .date,
 .forecast-right .day .date {
     font-size: calc(.8rem - .7px);
+    margin-bottom: 5px;
+}
+
+.forecast-left .day .temp-range,
+.forecast-right .day .temp-range {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.forecast-left .day .weather-icon,
+.forecast-right .day .weather-icon {
+    font-size: 20px;
+    margin: 5px 0;
 }
 
 .back {
@@ -411,6 +462,97 @@ body::before {
     font-weight: 500;
 }
 
+/* Additional Weather Details */
+.additional-details {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(102, 126, 234, 0.08);
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.detail-item {
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.detail-item:hover {
+    background: rgba(255, 255, 255, 0.7);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.detail-item i {
+    font-size: 28px;
+    color: #667eea;
+    margin-bottom: 8px;
+}
+
+.detail-item .detail-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin: 5px 0;
+}
+
+.detail-item .detail-label {
+    font-size: 13px;
+    color: #777;
+    font-weight: 500;
+}
+
+/* UV Index specific styling */
+.uv-low { color: #5cb85c !important; }
+.uv-moderate { color: #f0ad4e !important; }
+.uv-high { color: #d9534f !important; }
+.uv-very-high { color: #d9534f !important; }
+.uv-extreme { color: #8b0000 !important; }
+
+/* Last Updated */
+.last-updated {
+    margin-top: 15px;
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.last-updated i {
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+/* Sunrise/Sunset styling */
+.sun-times {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.sun-time {
+    flex: 1;
+}
+
+.sun-time i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.sunrise-icon {
+    color: #ff9800 !important;
+}
+
+.sunset-icon {
+    color: #ff5722 !important;
+}
+
 footer {
     font-size: calc(1rem + .3vw);
     position: relative;
@@ -448,6 +590,21 @@ footer {
     .weather-box .bottom-details {
         flex-wrap: wrap;
         overflow: visible;
+    }
+    
+    .additional-details {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .detail-item {
+        padding: 12px;
+    }
+    
+    .sun-times {
+        flex-direction: row;
+        grid-column: span 2;
     }
 
     .weather {
