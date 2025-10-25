@@ -270,8 +270,8 @@ body::before {
 }
 
 .getlocationbox .btn:hover::before {
-    width: 300px;
-    height: 300px;
+    width: calc(100% + 200px);
+    height: calc(100% + 200px);
 }
 
 .getlocationbox .btn:hover {
@@ -395,6 +395,12 @@ body::before {
     animation-play-state: paused;
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .weather-box img {
+        animation: none;
+    }
+}
+
 .weather-box .temp {
     display: flex;
     font-size: 60px;
@@ -408,23 +414,6 @@ body::before {
 .weather-box .temp:hover {
     color: #667eea;
     transform: scale(1.05);
-}
-
-.weather-box .temp::after {
-    content: 'Click to convert';
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 12px;
-    color: #999;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    white-space: nowrap;
-}
-
-.weather-box .temp:hover::after {
-    opacity: 1;
 }
 
 .weather-box .temp .numb {
